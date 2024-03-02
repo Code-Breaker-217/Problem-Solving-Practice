@@ -2,18 +2,18 @@
 
 class Solution {
 public:
-    int minSubArrayLen(int target, vector<int>& nums) {
-        int tail = 0, sum = 0, ans=INT_MAX;
-        for(int head = 0; head<nums.size(); head++){
-            sum+=nums[head];
-            while(tail<nums.size() && sum>=target){
-                if(sum>=target){
-                    ans = min(ans, head-tail+1);
-                }
-                sum-= nums[tail];
-                tail++;
-            }
+    int subarraySum(vector<int>& nums, int k) {
+        int count = 0, currSum = 0;
+        int n = nums.size();
+        if(n==0) return 0;
+        unordered_map<int, int> m;
+        for(int i=0;i<n;i++){
+            currSum += nums[i];
+            
+            if(currSum == k) count++;
+            if(m[currSum-k]!=0) count += m[currSum-k];
+            m[currSum]++;
         }
-        return ans==INT_MAX?0:ans;
+        return count;
     }
 };
